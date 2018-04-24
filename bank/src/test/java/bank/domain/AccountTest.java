@@ -1,5 +1,6 @@
 package bank.domain;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import util.DatabaseCleaner;
@@ -21,13 +22,18 @@ public class AccountTest {
     @Before
     public void SetUp() {
         em = Persistence.createEntityManagerFactory("bankPU").createEntityManager();
+
+
+    }
+
+    @After
+    public void something(){
         try {
             new DatabaseCleaner(em).clean();
         }
         catch(SQLException e){
 
         }
-
     }
 
     /*
