@@ -157,19 +157,22 @@ public class AccountTest {
         Account found = em2.find(Account.class,  cid);
 //TODO: verklaar de waarde van found.getBalance
         assertEquals(expectedBalance, found.getBalance());
-
         /*
             1.	Wat is de waarde van asserties en printstatements? Corrigeer verkeerde asserties zodat de test ‘groen’ wordt.
-                -
+                - 400
 
             2.	Welke SQL statements worden gegenereerd?
-                -
+                - INSERT INTO ACCOUNT (ACCOUNTNR, BALANCE, THRESHOLD) VALUES (?, ?, ?)
+                - SELECT @@IDENTITY
+                - SELECT ID, ACCOUNTNR, BALANCE, THRESHOLD FROM ACCOUNT WHERE (ID = ?)
 
             3.	Wat is het eindresultaat in de database?
-                -
+                - Een account met een balance van 400
 
             4.	Verklaring van bovenstaande drie observaties.
-                -
+                - Er wordt een account gemaakt met een balance van 400, hiervan wordt het id opgevraagd.
+                Vervolgens wordt er een tweede entity manager aangemaakt en het account met het vorige opgevraagde id opgehaald.
+                Hiervan wordt dan gecontrolleerd of de balance nogsteeds op 400 staat.
 
         */
     }
@@ -182,19 +185,43 @@ public class AccountTest {
            object om de veranderde state uit de database te halen.
             Test met asserties dat dit gelukt is.*/
 
+        Long expectedBalance = 400L;
+        Account account = new Account(114L);
+        em.getTransaction().begin();
+        em.persist(account);
+        account.setBalance(expectedBalance);
+        em.getTransaction().commit();
+        assertEquals(expectedBalance, account.getBalance());
+
+        Long  cid = account.getId();
+
+        EntityManager em2 = Persistence.createEntityManagerFactory("bankPU").createEntityManager();
+        em2.getTransaction().begin();
+        Account found = em2.find(Account.class,  cid);
+        em2.persist(found);
+        found.setBalance(300L);
+        em2.getTransaction().commit();
+
+        em.refresh(account);
+
+        assertEquals(300L, account.getBalance().longValue());
+
         /*
             1.	Wat is de waarde van asserties en printstatements? Corrigeer verkeerde asserties zodat de test ‘groen’ wordt.
-                -
+                - Er wordt gecontrolleerd of de waarde correct op 400 is gezet, en vervolgens na de aanpassing wordt er opnieuw gecontrolleerd naar de nieuwe waarde.
 
             2.	Welke SQL statements worden gegenereerd?
-                -
+                - INSERT INTO ACCOUNT (ACCOUNTNR, BALANCE, THRESHOLD) VALUES (?, ?, ?)
+                - SELECT @@IDENTITY
+                - SELECT ID, ACCOUNTNR, BALANCE, THRESHOLD FROM ACCOUNT WHERE (ID = ?)
+                - UPDATE ACCOUNT SET BALANCE = ? WHERE (ID = ?)
+                - SELECT ID, ACCOUNTNR, BALANCE, THRESHOLD FROM ACCOUNT WHERE (ID = ?)
 
             3.	Wat is het eindresultaat in de database?
-                -
+                - account heeft een veranderde balance van 300
 
             4.	Verklaring van bovenstaande drie observaties.
-                -
-
+                - 
         */
     }
 
