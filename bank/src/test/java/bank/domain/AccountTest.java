@@ -23,6 +23,12 @@ public class AccountTest {
     @Before
     public void SetUp() {
         em = Persistence.createEntityManagerFactory("bankPU").createEntityManager();
+
+
+    }
+
+    @After
+    public void something(){
         try {
             new DatabaseCleaner(em).clean();
         }
