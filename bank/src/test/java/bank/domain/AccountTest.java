@@ -358,16 +358,16 @@ public class AccountTest {
         Account account2 = new Account(114L) ;
         Account tweedeAccountObject = account2 ;
         tweedeAccountObject.setBalance(650L) ;
-        assertEquals((Long)650L, account2.getBalance()) ;  //verklaar
+        assertEquals((Long)650L, account2.getBalance()) ;  //verklaar: tweedeAccountObject heeft nu dezelfde reference dus als deze wordt aangepast wordt account2 ook veranderd.
         account2.setId(account.getId()) ;
         em.getTransaction().begin() ;
         account2 = em.merge(account2) ;
-        assertSame(account, account2) ;  //verklaar
-        assertTrue(em.contains(account2)) ;  //verklaar
-        assertFalse(em.contains(tweedeAccountObject)) ;  //verklaar
+        assertSame(account, account2) ;  //verklaar: account2 heeft dezelfde ID als account dus bij het mergen overschrijft account2 de data in de database met de info uit account2 over account heen.
+        assertTrue(em.contains(account2)) ;  //verklaar: de entity manager houd nu dus account2 bij vanwege de merge.
+        assertFalse(em.contains(tweedeAccountObject)) ;  //verklaar: tweedeAccountObject is nooit tegevoegd als persistancy.
         tweedeAccountObject.setBalance(850L) ;
-        assertEquals((Long)650L, account.getBalance()) ;  //verklaar
-        assertEquals((Long)650L, account2.getBalance()) ;  //verklaar
+        assertEquals((Long)650L, account.getBalance()) ;  //verklaar: omdat de waarde in de database overschreven is en account persist heeft deze nu een nieuwe waarde.
+        assertEquals((Long)650L, account2.getBalance()) ;  //verklaar: account2 is niet meer aangepast omdat de reference veranderd is.
         em.getTransaction().commit() ;
         em.close() ;
 
@@ -376,14 +376,15 @@ public class AccountTest {
                 -
 
             2.	Welke SQL statements worden gegenereerd?
-                -
+                - INSERT INTO ACCOUNT (ACCOUNTNR, BALANCE, THRESHOLD) VALUES (?, ?, ?)
+                - SELECT @@IDENTITY
+                - UPDATE ACCOUNT SET BALANCE = ? WHERE (ID = ?)
 
             3.	Wat is het eindresultaat in de database?
-                -
+                - een account met een balance van 650
 
             4.	Verklaring van bovenstaande drie observaties.
-                -
-
+                - zie verklaring in bovenstaande code.
         */
     }
 
