@@ -391,16 +391,18 @@ public class AccountTest {
         //hierdoor zal naderhand een nieuw object verkregen worden.
         /*
             1.	Wat is de waarde van asserties en printstatements? Corrigeer verkeerde asserties zodat de test ‘groen’ wordt.
-
+                - Scenario 2 - assertsame naar assertNotSame.
 
             2.	Welke SQL statements worden gegenereerd?
-                SELECT * FROM ACCOUNT WHERE <Class PRIMARY KEY>
+                - SELECT * FROM ACCOUNT WHERE <Class PRIMARY KEY>
 
             3.	Wat is het eindresultaat in de database?
-                -
+                - een account is aangemaakt in de database.
 
             4.	Verklaring van bovenstaande drie observaties.
-                -
+                - em.find(<Class>,Primary key) vind het object in de database van de opgegeven table met de opgegeven primary key
+                  em.clear() laat alle verbindingen met de database wegvallen, waardoor de teruggekregen object niet hetzelfde zijn
+                  als voorheen.
 
         */
     }
