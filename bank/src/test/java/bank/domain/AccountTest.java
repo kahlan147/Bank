@@ -1,5 +1,7 @@
 package bank.domain;
 
+import bank.dao.AccountDAOJPAImpl;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import util.DatabaseCleaner;
@@ -27,7 +29,7 @@ public class AccountTest {
         catch(SQLException e){
 
         }
-
+        em = Persistence.createEntityManagerFactory("bankPU").createEntityManager();
     }
 
     /*
@@ -56,10 +58,13 @@ public class AccountTest {
         /*
             1.	Wat is de waarde van asserties en printstatements? Corrigeer verkeerde asserties zodat de test ‘groen’ wordt.
                 - Het is een manier van controleren of de gewenste data teruggegeven wordt.
+
             2.	Welke SQL statements worden gegenereerd?
                 - CREATE (als er nog geen table bestaat), INSERT, SELECT
+
             3.	Wat is het eindresultaat in de database?
                 - een table met een row van opgegeven data.
+
             4.	Verklaring van bovenstaande drie observaties.
                 - Er is een table aangemaakt in de database, hier wordt de account aangemaakt. De Id wordt niet
                  gegenereerd in de applicatie, maar in de database. Door de Id terug te vragen komen we erachter
@@ -76,19 +81,22 @@ public class AccountTest {
         assertNull(account.getId());
         em.getTransaction().rollback();
 // TODO code om te testen dat table account geen records bevat. Hint: bestudeer/gebruik AccountDAOJPAImpl
+        AccountDAOJPAImpl accountDAOJPA = new AccountDAOJPAImpl(em);
+        assertEquals(0, accountDAOJPA.count());
+
         /*
             1.	Wat is de waarde van asserties en printstatements? Corrigeer verkeerde asserties zodat de test ‘groen’ wordt.
-                -
+                - Er wordt gecontrolleerd of er daadwerkelijk 0 records van accounts in de database staan.
 
             2.	Welke SQL statements worden gegenereerd?
-                -
+                - DELETE FROM ACCOUNT
+                - SELECT COUNT(ID) FROM ACCOUNT
 
             3.	Wat is het eindresultaat in de database?
-                -
+                - Het gemaakte account is weg gehaald doormiddel van de rollback.
 
             4.	Verklaring van bovenstaande drie observaties.
                 -
-
         */
 
     }
