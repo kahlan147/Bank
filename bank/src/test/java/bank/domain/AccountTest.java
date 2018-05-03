@@ -357,15 +357,17 @@ public class AccountTest {
         accF1 = em.find(Account.class, acc1.getId());
         em.clear();
         accF2 = em.find(Account.class, acc1.getId());
-        assertSame(accF1, accF2);
+        assertNotSame(accF1, accF2);
 //TODO verklaar verschil tussen beide scenario’s
-
+        //Scenario 2 - assertsame naar assertNotSame
+        //Na de entitymanager te clearen vallen alle binden met de database weg,
+        //hierdoor zal naderhand een nieuw object verkregen worden.
         /*
             1.	Wat is de waarde van asserties en printstatements? Corrigeer verkeerde asserties zodat de test ‘groen’ wordt.
-                -
+
 
             2.	Welke SQL statements worden gegenereerd?
-                -
+                SELECT * FROM ACCOUNT WHERE <Class PRIMARY KEY>
 
             3.	Wat is het eindresultaat in de database?
                 -
