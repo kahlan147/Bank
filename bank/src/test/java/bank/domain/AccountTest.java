@@ -112,25 +112,32 @@ public class AccountTest {
         em.getTransaction().begin();
         em.persist(account);
 //TODO: verklaar en pas eventueel aan
-//assertNotEquals(expected, account.getId();
+        //assertNotEquals naar assertEquals - Het account is nog niet opgeslagen in de database, dus de waarde wordt nog niet aangepast.
+        assertEquals(expected, account.getId());
+        System.out.println(account.getId());
         em.flush();
+        System.out.println(account.getId());
 //TODO: verklaar en pas eventueel aan
-//assertEquals(expected, account.getId();
+        //assertEquals naar assertNotEquals. Bij het flushen wordt het account gesynchroniseerd met de database,
+        //hierdoor wordt automatisch een ID gegenereerd en aan Account gegeven. Dit overschrijft het zelf opgegeven ID.
+        //Het account wordt nog niet opgeslagen.
+        assertNotEquals(expected, account.getId());
         em.getTransaction().commit();
 //TODO: verklaar en pas eventueel aan
-
+        //Account wordt nu wel opgeslagen in de database.
         /*
             1.	Wat is de waarde van asserties en printstatements? Corrigeer verkeerde asserties zodat de test ‘groen’ wordt.
-                -
+                Flush synchroniseerd het huidige object met de database, hierdoor wordt alvast een ID gegeneerd en aan het object
+                meegegeven.
 
             2.	Welke SQL statements worden gegenereerd?
-                -
+                IDENT_CURRENT, INSERT
 
             3.	Wat is het eindresultaat in de database?
-                -
+                Het account is aangemaakt met een automatisch gegenereerd ID ipv het zelf opgegeven ID
 
             4.	Verklaring van bovenstaande drie observaties.
-                -
+                Flush is een manier om een object te syncen met de database zonder het object op te slaan.
 
         */
     }
