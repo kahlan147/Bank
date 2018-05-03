@@ -114,9 +114,7 @@ public class AccountTest {
 //TODO: verklaar en pas eventueel aan
         //assertNotEquals naar assertEquals - Het account is nog niet opgeslagen in de database, dus de waarde wordt nog niet aangepast.
         assertEquals(expected, account.getId());
-        System.out.println(account.getId());
         em.flush();
-        System.out.println(account.getId());
 //TODO: verklaar en pas eventueel aan
         //assertEquals naar assertNotEquals. Bij het flushen wordt het account gesynchroniseerd met de database,
         //hierdoor wordt automatisch een ID gegenereerd en aan Account gegeven. Dit overschrijft het zelf opgegeven ID.
