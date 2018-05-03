@@ -1,5 +1,6 @@
 package bank.domain;
 
+import bank.dao.AccountDAO;
 import bank.dao.AccountDAOJPAImpl;
 import org.junit.After;
 import org.junit.Before;
@@ -285,19 +286,28 @@ public class AccountTest {
 //TODO: doe dit zowel voor de bovenstaande java objecten als voor opnieuw bij de entitymanager opgevraagde objecten met overeenkomstig Id.
 // HINT: gebruik acccountDAO.findByAccountNr
 
+        assertEquals(balance2a, acc.getBalance());
+        assertEquals(balance2a + balance2a, acc9.getBalance().longValue());
+
+        AccountDAO accountDAO = new AccountDAOJPAImpl(em);
+        Account found = accountDAO.findByAccountNr(acc9.getAccountNr());
+
+        assertEquals(balance2a + balance2a, found.getBalance().longValue());
+
         /*
             1.	Wat is de waarde van asserties en printstatements? Corrigeer verkeerde asserties zodat de test ‘groen’ wordt.
-                -
+                - acc en acc9 hebben de verwachte balance.
 
             2.	Welke SQL statements worden gegenereerd?
-                -
+                - INSERT INTO ACCOUNT (ACCOUNTNR, BALANCE, THRESHOLD) VALUES (?, ?, ?)
+                - SELECT @@IDENTITY
+                - SELECT ID, ACCOUNTNR, BALANCE, THRESHOLD FROM ACCOUNT WHERE (ACCOUNTNR = ?)
 
             3.	Wat is het eindresultaat in de database?
-                -
+                - acc9 is in de database gezet met een balance van 422 (2x211)
 
             4.	Verklaring van bovenstaande drie observaties.
-                -
-
+                - op het moment dat acc wordt gemerged naar acc9 word deze ook meteen persistant.
         */
     }
 
