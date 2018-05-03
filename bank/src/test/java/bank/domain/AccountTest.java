@@ -24,11 +24,6 @@ public class AccountTest {
     public void SetUp() {
         em = Persistence.createEntityManagerFactory("bankPU").createEntityManager();
 
-
-    }
-
-    @After
-    public void something(){
         try {
             new DatabaseCleaner(em).clean();
         }
@@ -36,7 +31,9 @@ public class AccountTest {
 
         }
         em = Persistence.createEntityManagerFactory("bankPU").createEntityManager();
+
     }
+
 
     /*
         1.	Wat is de waarde van asserties en printstatements? Corrigeer verkeerde asserties zodat de test ‘groen’ wordt.
