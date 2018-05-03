@@ -240,18 +240,30 @@ public class AccountTest {
 //TODO: voeg asserties toe om je verwachte waarde van de attributen te verifieren.
 //TODO: doe dit zowel voor de bovenstaande java objecten als voor opnieuw bij de entitymanager opgevraagde objecten met overeenkomstig Id.
 
+        assertEquals(balance1, acc.getBalance());
+
+        Long  cid = acc.getId();
+
+        EntityManager em2 = Persistence.createEntityManagerFactory("bankPU").createEntityManager();
+        em2.getTransaction().begin();
+        Account found = em2.find(Account.class,  cid);
+
+        assertEquals(balance1, found.getBalance());
+
         /*
             1.	Wat is de waarde van asserties en printstatements? Corrigeer verkeerde asserties zodat de test ‘groen’ wordt.
-                -
+                - Yes
 
             2.	Welke SQL statements worden gegenereerd?
-                -
+                - INSERT INTO ACCOUNT (ACCOUNTNR, BALANCE, THRESHOLD) VALUES (?, ?, ?)
+                - SELECT @@IDENTITY
+                - SELECT ID, ACCOUNTNR, BALANCE, THRESHOLD FROM ACCOUNT WHERE (ID = ?)
 
             3.	Wat is het eindresultaat in de database?
-                -
+                - Een account met de balance van 100
 
             4.	Verklaring van bovenstaande drie observaties.
-                -
+                - Er wordt een account gemaakt met een balance van 100, dit account wordt dan via een entity manager weer opgevraagd en gecontrolleerd.
 
         */
     }
@@ -335,17 +347,17 @@ public class AccountTest {
 
         Account account2 = new Account(114L) ;
         Account tweedeAccountObject = account2 ;
-        tweedeAccountObject.setBalance(650l) ;
-        assertEquals((Long)650L,account2.getBalance()) ;  //verklaar
+        tweedeAccountObject.setBalance(650L) ;
+        assertEquals((Long)650L, account2.getBalance()) ;  //verklaar
         account2.setId(account.getId()) ;
         em.getTransaction().begin() ;
         account2 = em.merge(account2) ;
-        assertSame(account,account2) ;  //verklaar
+        assertSame(account, account2) ;  //verklaar
         assertTrue(em.contains(account2)) ;  //verklaar
         assertFalse(em.contains(tweedeAccountObject)) ;  //verklaar
-        tweedeAccountObject.setBalance(850l) ;
-        assertEquals((Long)650L,account.getBalance()) ;  //verklaar
-        assertEquals((Long)650L,account2.getBalance()) ;  //verklaar
+        tweedeAccountObject.setBalance(850L) ;
+        assertEquals((Long)650L, account.getBalance()) ;  //verklaar
+        assertEquals((Long)650L, account2.getBalance()) ;  //verklaar
         em.getTransaction().commit() ;
         em.close() ;
 
@@ -420,16 +432,17 @@ public class AccountTest {
 
         /*
             1.	Wat is de waarde van asserties en printstatements? Corrigeer verkeerde asserties zodat de test ‘groen’ wordt.
-                -
+                - Er wordt een account aangemaakt en vervolgens weer verwijderd.
 
             2.	Welke SQL statements worden gegenereerd?
-                -
+                - INSERT INTO ACCOUNT (ACCOUNTNR, BALANCE, THRESHOLD) VALUES (?, ?, ?)
+                - SELECT @@IDENTITY
 
             3.	Wat is het eindresultaat in de database?
-                -
+                - Het account bestaat wel nog in de database.
 
             4.	Verklaring van bovenstaande drie observaties.
-                -
+                - na het verwijderen van het account wordt dit nooit daadwerkelijke doorgegeven aan de database.
 
         */
     }
