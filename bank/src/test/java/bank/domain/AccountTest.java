@@ -444,19 +444,16 @@ public class AccountTest {
         Voer dezelfde opdracht nu uit met GenerationType SEQUENCE en TABLE.
         Verklaar zowel de verschillen in testresultaat als verschillen van de database structuur.*/
 
+        //SEQUENCE: Geen verschil, werkt hetzelfde.
+        //TABLE: Foutmelding op assertNull. De Id is 1. Hierna volgt een enorme error op de commit.
         /*
-            1.	Wat is de waarde van asserties en printstatements? Corrigeer verkeerde asserties zodat de test ‘groen’ wordt.
-                -
+        IDENTITY
+          Indicates that the persistence provider must assign primary keys for the entity using a database identity column.
+        SEQUENCE
+          Indicates that the persistence provider must assign primary keys for the entity using a database sequence.
+        TABLE
+          Indicates that the persistence provider must assign primary keys for the entity using an underlying database table to ensure uniqueness.
 
-            2.	Welke SQL statements worden gegenereerd?
-                -
-
-            3.	Wat is het eindresultaat in de database?
-                -
-
-            4.	Verklaring van bovenstaande drie observaties.
-                -
-
-        */
+         */
     }
 }
