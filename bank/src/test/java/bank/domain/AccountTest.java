@@ -396,21 +396,25 @@ public class AccountTest {
         accF1 = em.find(Account.class, acc1.getId());
         em.clear();
         accF2 = em.find(Account.class, acc1.getId());
-        assertSame(accF1, accF2);
+        assertNotSame(accF1, accF2);
 //TODO verklaar verschil tussen beide scenario’s
-
+        //Scenario 2 - assertsame naar assertNotSame
+        //Na de entitymanager te clearen vallen alle binden met de database weg,
+        //hierdoor zal naderhand een nieuw object verkregen worden.
         /*
             1.	Wat is de waarde van asserties en printstatements? Corrigeer verkeerde asserties zodat de test ‘groen’ wordt.
-                -
+                - Scenario 2 - assertsame naar assertNotSame.
 
             2.	Welke SQL statements worden gegenereerd?
-                -
+                - SELECT * FROM ACCOUNT WHERE <Class PRIMARY KEY>
 
             3.	Wat is het eindresultaat in de database?
-                -
+                - een account is aangemaakt in de database.
 
             4.	Verklaring van bovenstaande drie observaties.
-                -
+                - em.find(<Class>,Primary key) vind het object in de database van de opgegeven table met de opgegeven primary key
+                  em.clear() laat alle verbindingen met de database wegvallen, waardoor de teruggekregen object niet hetzelfde zijn
+                  als voorheen.
 
         */
     }
@@ -453,19 +457,16 @@ public class AccountTest {
         Voer dezelfde opdracht nu uit met GenerationType SEQUENCE en TABLE.
         Verklaar zowel de verschillen in testresultaat als verschillen van de database structuur.*/
 
+        //SEQUENCE: Geen verschil, werkt hetzelfde.
+        //TABLE: Foutmelding op assertNull. De Id is 1. Hierna volgt een enorme error op de commit.
         /*
-            1.	Wat is de waarde van asserties en printstatements? Corrigeer verkeerde asserties zodat de test ‘groen’ wordt.
-                -
+        IDENTITY
+          Indicates that the persistence provider must assign primary keys for the entity using a database identity column.
+        SEQUENCE
+          Indicates that the persistence provider must assign primary keys for the entity using a database sequence.
+        TABLE
+          Indicates that the persistence provider must assign primary keys for the entity using an underlying database table to ensure uniqueness.
 
-            2.	Welke SQL statements worden gegenereerd?
-                -
-
-            3.	Wat is het eindresultaat in de database?
-                -
-
-            4.	Verklaring van bovenstaande drie observaties.
-                -
-
-        */
+         */
     }
 }
