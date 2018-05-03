@@ -99,7 +99,7 @@ public class AccountTest {
                 - Het gemaakte account is weg gehaald doormiddel van de rollback.
 
             4.	Verklaring van bovenstaande drie observaties.
-                -
+                - 
         */
 
     }
@@ -152,19 +152,22 @@ public class AccountTest {
         Account found = em2.find(Account.class,  cid);
 //TODO: verklaar de waarde van found.getBalance
         assertEquals(expectedBalance, found.getBalance());
-
         /*
             1.	Wat is de waarde van asserties en printstatements? Corrigeer verkeerde asserties zodat de test ‘groen’ wordt.
-                -
+                - 400
 
             2.	Welke SQL statements worden gegenereerd?
-                -
+                - INSERT INTO ACCOUNT (ACCOUNTNR, BALANCE, THRESHOLD) VALUES (?, ?, ?)
+                - SELECT @@IDENTITY
+                - SELECT ID, ACCOUNTNR, BALANCE, THRESHOLD FROM ACCOUNT WHERE (ID = ?)
 
             3.	Wat is het eindresultaat in de database?
-                -
+                - Een account met een balance van 400
 
             4.	Verklaring van bovenstaande drie observaties.
-                -
+                - Er wordt een account gemaakt met een balance van 400, hiervan wordt het id opgevraagd.
+                Vervolgens wordt er een tweede entity manager aangemaakt en het account met het vorige opgevraagde id opgehaald.
+                Hiervan wordt dan gecontrolleerd of de balance nogsteeds op 400 staat.
 
         */
     }
