@@ -310,27 +310,35 @@ public class AccountTest {
         acc = new Account(3L);
         em.getTransaction().begin();
         Account acc2 = em.merge(acc);
-        assertTrue(em.contains(acc)); // verklaar
+        assertFalse(em.contains(acc)); // verklaar
+        //acc is niet meer verbonden met het opgeslagen account; doordat acc2 met deze entity gemerged is.
         assertTrue(em.contains(acc2)); // verklaar
-        assertEquals(acc, acc2);  //verklaar
+        //acc2 is gemerged met de opgeslagen entity waardoor deze wel overeenkomt met de database.
+        assertNotEquals(acc, acc2);  //verklaar
+        //acc is niet langer verbonden met de entity in de database, acc2 wel. Hierdoor zijn ze niet gelijk.
         acc2.setBalance(balance3b);
         acc.setBalance(balance3c);
         em.getTransaction().commit();
+
+        assertEquals(balance3b, em.find(Account.class, acc2.getId()).getBalance());
+        assertNotEquals(balance3c, em.find(Account.class, acc2.getId()).getBalance());
+
 //TODO: voeg asserties toe om je verwachte waarde van de attributen te verifiëren.
 //TODO: doe dit zowel voor de bovenstaande java objecten als voor opnieuw bij de entitymanager opgevraagde objecten met overeenkomstig Id.
 
         /*
             1.	Wat is de waarde van asserties en printstatements? Corrigeer verkeerde asserties zodat de test ‘groen’ wordt.
-                -
+                - acc2 is nu verbonden met de database entity, en niet acc.
 
             2.	Welke SQL statements worden gegenereerd?
-                -
+                - SELECT * FROM ACCOUNT WHERE Id = acc.getId();
+                - UPDATE ACCOUNT SET Balance = <value> WHERE Id = Acc2.getId();
 
             3.	Wat is het eindresultaat in de database?
-                -
+                - Een account is aangemaakt met de balans van balance3b
 
             4.	Verklaring van bovenstaande drie observaties.
-                -
+                - Door merge wordt acc niet meer verbonden met de database, acc2 vervangt acc in deze verbinding.
 
         */
     }
