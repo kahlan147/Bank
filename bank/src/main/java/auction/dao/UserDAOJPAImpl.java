@@ -2,68 +2,58 @@ package auction.dao;
 
 import auction.domain.User;
 
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
-import java.util.ArrayList;
-import java.util.HashMap;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
 public class UserDAOJPAImpl implements UserDAO
 {
     private EntityManager em;
 
-    private HashMap<String, User> users;
-
-    public UserDAOJPAImpl()
+    public UserDAOJPAImpl(EntityManager em)
     {
-//        users = new HashMap<String, User>();
-        em = Persistence.createEntityManagerFactory("se42").createEntityManager();
-        em.persist(users);
+        this.em = em;
     }
 
     @Override
     public int count()
     {
-        return users.size();
+        Query q = em.createNamedQuery("User.count", User.class);
+        return ((Long) q.getSingleResult()).intValue();
     }
 
     @Override
     public void create(User user)
     {
-        if (findByEmail(user.getEmail()) != null)
-        {
-           throw new EntityExistsException();
-        }
-        users.put(user.getEmail(), user);
+        em.persist(user);
     }
 
     @Override
     public void edit(User user)
     {
-        if (findByEmail(user.getEmail()) == null)
-        {
-            throw new IllegalArgumentException();
-        }
-        users.put(user.getEmail(), user);
+        em.merge(user);
     }
-
 
     @Override
     public List<User> findAll()
     {
-        return new ArrayList<User>(users.values());
+        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+        cq.select(cq.from(User.class));
+        return em.createQuery(cq).getResultList();
     }
 
     @Override
     public User findByEmail(String email)
     {
-        return users.get(email);
+        Query q = em.createNamedQuery("User.findByEmail", User.class);
+        q.setParameter("email", email);
+        return (User) q.getSingleResult();
     }
 
     @Override
     public void remove(User user)
     {
-        users.remove(user.getEmail());
+        em.remove(user);
     }
 }
