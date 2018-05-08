@@ -2,19 +2,24 @@ package auction.domain;
 
 import javax.persistence.*;
 
-@Entity
+@Entity (name="Users")
 @NamedQueries({
-        @NamedQuery(name = "User.getAll", query = "select u from User as u"),
-        @NamedQuery(name = "User.count", query = "select count(u) from User as u"),
-        @NamedQuery(name = "User.findByEmail", query = "select u from User as u where u.email = :email")
+        @NamedQuery(name = "User.getAll", query = "select u from Users as u"),
+        @NamedQuery(name = "User.count", query = "select count(u) from Users as u"),
+        @NamedQuery(name = "User.findByEmail", query = "select u from Users as u where u.email = :email")
 })
 public class User
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long Id;
     @Column(unique = true)
     private String email;
+
+    public User()
+    {
+
+    }
 
     public User(String email)
     {

@@ -14,7 +14,8 @@ public class JPARegistrationMgrTest
     private RegistrationMgr registrationMgr;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws Exception
+    {
         registrationMgr = new RegistrationMgr();
     }
 

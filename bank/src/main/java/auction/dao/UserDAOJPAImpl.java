@@ -3,6 +3,7 @@ package auction.dao;
 import auction.domain.User;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
@@ -27,6 +28,7 @@ public class UserDAOJPAImpl implements UserDAO
     public void create(User user)
     {
         em.persist(user);
+
     }
 
     @Override
@@ -48,7 +50,14 @@ public class UserDAOJPAImpl implements UserDAO
     {
         Query q = em.createNamedQuery("User.findByEmail", User.class);
         q.setParameter("email", email);
-        return (User) q.getSingleResult();
+        try
+        {
+            return (User) q.getSingleResult();
+        }
+        catch (NoResultException e)
+        {
+            return null;
+        }
     }
 
     @Override
