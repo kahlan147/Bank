@@ -11,8 +11,6 @@ import javax.persistence.*;
 public class User
 {
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long Id;
     @Column(unique = true)
     private String email;
 
@@ -29,5 +27,11 @@ public class User
     public String getEmail()
     {
         return email;
+    }
+
+    @Override
+    public boolean equals(Object other)
+    {
+        return other instanceof User && this.email.equals(((User) other).email);
     }
 }
