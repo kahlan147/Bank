@@ -3,7 +3,10 @@ package auction.service;
 import auction.domain.User;
 import org.junit.Before;
 import org.junit.Test;
+import util.DatabaseCleaner;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -16,6 +19,9 @@ public class JPARegistrationMgrTest
     @Before
     public void setUp() throws Exception
     {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("se42");
+        new DatabaseCleaner(emf.createEntityManager()).clean();
+
         registrationMgr = new RegistrationMgr();
     }
 
