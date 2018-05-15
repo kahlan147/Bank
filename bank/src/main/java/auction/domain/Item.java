@@ -17,12 +17,12 @@ public class Item implements Comparable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private User seller;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private Category category;
     private String description;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     private Bid highest;
 
     public Item(){}
@@ -62,7 +62,10 @@ public class Item implements Comparable {
     }
 
     public int compareTo(Object arg0) {
-        //TODO
+        if(arg0 instanceof Item){
+            Item otherItem = (Item)arg0;
+            return otherItem.getHighestBid().getAmount().compareTo(this.getHighestBid().getAmount());
+        }
         return -1;
     }
 

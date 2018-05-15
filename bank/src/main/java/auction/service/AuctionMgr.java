@@ -1,5 +1,7 @@
 package auction.service;
 
+import auction.dao.ItemDAO;
+import auction.dao.ItemDAOJPAImpl;
 import nl.fontys.util.Money;
 import auction.domain.Bid;
 import auction.domain.Item;
@@ -9,14 +11,17 @@ import java.util.List;
 
 public class AuctionMgr  {
 
+    private ItemDAO itemDAO;
+
+    public AuctionMgr(){itemDAO = new ItemDAOJPAImpl();}
+
    /**
      * @param id
      * @return het item met deze id; als dit item niet bekend is wordt er null
      *         geretourneerd
      */
     public Item getItem(Long id) {
-        // TODO
-        return null;
+        return itemDAO.find(id);
     }
 
   
@@ -25,7 +30,9 @@ public class AuctionMgr  {
      * @return een lijst met items met @desciption. Eventueel lege lijst.
      */
     public List<Item> findItemByDescription(String description) {
-        // TODO
+        if (!description.isEmpty()) {
+            return itemDAO.findByDescription(description);
+        }
         return new ArrayList<Item>();
     }
 
@@ -37,7 +44,6 @@ public class AuctionMgr  {
      *         amount niet hoger was dan het laatste bod, dan null
      */
     public Bid newBid(Item item, User buyer, Money amount) {
-        // TODO 
-        return null;
+        return item.newBid(buyer,amount);
     }
 }

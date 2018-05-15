@@ -8,6 +8,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import auction.domain.User;
+import util.DatabaseCleaner;
+
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 public class RegistrationMgrTest {
 
@@ -15,6 +19,9 @@ public class RegistrationMgrTest {
 
     @Before
     public void setUp() throws Exception {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("se42");
+        new DatabaseCleaner(emf.createEntityManager()).clean();
+
         registrationMgr = new RegistrationMgr();
     }
 

@@ -6,12 +6,13 @@ import nl.fontys.util.Money;
 import javax.persistence.*;
 
 @Entity(name="Bid")
+
 public class Bid {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     private FontysTime time;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     private User buyer;
     private Money amount;
 
