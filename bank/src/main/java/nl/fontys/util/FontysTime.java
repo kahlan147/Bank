@@ -1,9 +1,15 @@
 package nl.fontys.util;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.io.Serializable;
 import java.sql.Time;
 import java.util.TimeZone;
 
-public class FontysTime {
+
+public class FontysTime implements Serializable {
 	private long seconds;
 
 	public FontysTime() {

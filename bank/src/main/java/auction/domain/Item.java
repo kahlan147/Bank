@@ -2,13 +2,30 @@ package auction.domain;
 
 import nl.fontys.util.Money;
 
+import javax.persistence.*;
+import java.util.Objects;
+
+@Entity(name="Item")
+@NamedQueries({
+        @NamedQuery(name = "Item.getAll", query = "select i from Item as i"),
+        @NamedQuery(name = "Item.count", query = "select count(i) from Item as i"),
+        @NamedQuery(name = "Item.findById", query = "select i from Item as i where i.id = :id"),
+        @NamedQuery(name = "Item.findByDescription", query = "select i from Item as i where i.description = :description")
+})
 public class Item implements Comparable {
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
+    @ManyToOne
     private User seller;
+    @ManyToOne
     private Category category;
     private String description;
+    @OneToOne
     private Bid highest;
+
+    public Item(){}
 
     public Item(User seller, Category category, String description) {
         this.seller = seller;
@@ -50,12 +67,30 @@ public class Item implements Comparable {
     }
 
     public boolean equals(Object o) {
-        //TODO
-        return false;
+        if(o == null){
+            return false;
+        }
+        if(!(o instanceof Item)){
+            return false;
+        }
+        Item other = (Item)o;
+        if(this.getSeller() != other.getSeller()) {
+            return false;
+        }
+        if(this.getCategory() != other.getCategory()){
+            return false;
+        }
+        if(!this.getDescription().equals(other.getDescription())){
+            return false;
+        }
+        if(this.getHighestBid() != other.getHighestBid()){
+            return false;
+        }
+
+        return true;
     }
 
     public int hashCode() {
-        //TODO
-        return 0;
+        return Objects.hash(seller, category, description, highest);
     }
 }

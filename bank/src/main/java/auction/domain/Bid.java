@@ -3,11 +3,19 @@ package auction.domain;
 import nl.fontys.util.FontysTime;
 import nl.fontys.util.Money;
 
-public class Bid {
+import javax.persistence.*;
 
+@Entity(name="Bid")
+public class Bid {
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Long id;
     private FontysTime time;
+    @ManyToOne
     private User buyer;
     private Money amount;
+
+    public Bid(){}
 
     public Bid(User buyer, Money amount) {
         this.buyer = buyer;
