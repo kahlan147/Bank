@@ -4,6 +4,7 @@ import auction.domain.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
@@ -12,9 +13,9 @@ public class UserDAOJPAImpl implements UserDAO
 {
     private EntityManager em;
 
-    public UserDAOJPAImpl(EntityManager em)
+    public UserDAOJPAImpl()
     {
-        this.em = em;
+        this.em = Persistence.createEntityManagerFactory("se42").createEntityManager();
     }
 
     @Override
@@ -45,7 +46,8 @@ public class UserDAOJPAImpl implements UserDAO
     {
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
         cq.select(cq.from(User.class));
-        return em.createQuery(cq).getResultList();
+        return em.createQuery(cq).getResultList(); //If database is empty, this returns an empty list by itself.
+                                                   //There is no exception handling needed for catching an empty list.
     }
 
     @Override
