@@ -15,8 +15,9 @@ public class User
     @Id
     @Column(unique = true)
     private String email;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany
     private List<Item> auctionItems = new ArrayList<>();
+
     public User()
     {
 

@@ -17,12 +17,12 @@ public class Item implements Comparable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne/*(cascade = CascadeType.ALL)*/
+    @ManyToOne
     private User seller;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Category category;
     private String description;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Bid highest;
 
     public Item(){}
