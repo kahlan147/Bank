@@ -1,6 +1,8 @@
 package auction.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity (name="Users")
 @NamedQueries({
@@ -13,7 +15,8 @@ public class User
     @Id
     @Column(unique = true)
     private String email;
-
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Item> auctionItems = new ArrayList<>();
     public User()
     {
 

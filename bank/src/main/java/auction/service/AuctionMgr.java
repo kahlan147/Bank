@@ -43,7 +43,9 @@ public class AuctionMgr  {
      * @return het nieuwe bod ter hoogte van amount op item door buyer, tenzij
      *         amount niet hoger was dan het laatste bod, dan null
      */
-    public Bid newBid(Item item, User buyer, Money amount) {
+    public Bid newBid(Item item, User buyer, Money amount)
+    {
+
         return item.newBid(buyer,amount);
     }
 }

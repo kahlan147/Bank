@@ -12,7 +12,7 @@ public class Bid {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     private FontysTime time;
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne(cascade = CascadeType.ALL)
     private User buyer;
     private Money amount;
 
