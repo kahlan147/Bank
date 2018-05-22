@@ -2,16 +2,21 @@ package auction.service;
 
 import java.util.*;
 
+import auction.dao.ItemDAO;
+import auction.dao.ItemDAOJPAImpl;
 import auction.dao.UserDAOJPAImpl;
+import auction.domain.Item;
 import auction.domain.User;
 import auction.dao.UserDAO;
 
 public class RegistrationMgr {
     private UserDAO userDAO;
+    private ItemDAO itemDAO;
 
     public RegistrationMgr()
     {
         userDAO = new UserDAOJPAImpl();
+        itemDAO = new ItemDAOJPAImpl();
     }
 
     /**
@@ -41,7 +46,8 @@ public class RegistrationMgr {
      * @return Het Userobject dat geïdentificeerd wordt door het gegeven
      * e-mailadres of null als zo'n User niet bestaat.
      */
-    public User getUser(String email) {
+    public User getUser(String email)
+    {
         return userDAO.findByEmail(email);
     }
 
@@ -50,5 +56,10 @@ public class RegistrationMgr {
      */
     public List<User> getUsers() {
         return userDAO.findAll();
+    }
+
+    public Set<Item> getOfferedItems(String email)
+    {
+        return itemDAO.findOfferedItemsByEmail(email);
     }
 }

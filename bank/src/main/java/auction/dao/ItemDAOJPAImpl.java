@@ -9,6 +9,7 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Niels Verheijen on 15/05/2018.
@@ -33,6 +34,7 @@ public class ItemDAOJPAImpl implements ItemDAO
     @Override
     public void create(Item item)
     {
+
         em.getTransaction().begin();
         em.persist(item);
         em.getTransaction().commit();
@@ -79,6 +81,20 @@ public class ItemDAOJPAImpl implements ItemDAO
         try
         {
             return (List<Item>) q.getResultList();
+        }
+        catch (NoResultException e)
+        {
+            return null;
+        }
+    }
+
+    public Set<Item> findOfferedItemsByEmail(String email)
+    {
+        Query q = em.createNamedQuery("Item.findOfferedItems", Item.class);
+        q.setParameter("email", email);
+        try
+        {
+            return (Set<Item>) q.getResultList();
         }
         catch (NoResultException e)
         {

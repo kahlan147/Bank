@@ -10,6 +10,7 @@ import java.util.TimeZone;
 
 
 public class FontysTime implements Serializable {
+	//TODO: Embed in bid
 	private long seconds;
 
 	public FontysTime() {

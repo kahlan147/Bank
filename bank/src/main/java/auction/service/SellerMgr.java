@@ -19,7 +19,7 @@ public class SellerMgr {
      *         en met de beschrijving description
      */
     public Item offerItem(User seller, Category cat, String description) {
-        Item newItem = new Item(seller,cat,description);
+        Item newItem = new Item(seller, cat, description);
         itemDAO.create(newItem);
         return newItem;
     }

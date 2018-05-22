@@ -2,6 +2,7 @@ package auction.dao;
 
 import auction.domain.Item;
 import java.util.List;
+import java.util.Set;
 
 public interface ItemDAO {
 
@@ -41,6 +42,8 @@ public interface ItemDAO {
      * @return list of item instances having specified description
      */
     List<Item> findByDescription(String description);
+
+    Set<Item> findOfferedItemsByEmail(String email);
 
     /**
      * Remove the entity instance

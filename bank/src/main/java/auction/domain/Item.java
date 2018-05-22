@@ -10,14 +10,15 @@ import java.util.Objects;
         @NamedQuery(name = "Item.getAll", query = "select i from Item as i"),
         @NamedQuery(name = "Item.count", query = "select count(i) from Item as i"),
         @NamedQuery(name = "Item.findById", query = "select i from Item as i where i.id = :id"),
-        @NamedQuery(name = "Item.findByDescription", query = "select i from Item as i where i.description = :description")
+        @NamedQuery(name = "Item.findByDescription", query = "select i from Item as i where i.description = :description"),
+        @NamedQuery(name = "Item.findOfferedItems", query = "select i from Item as i where i.seller.email = :email")
 })
 public class Item implements Comparable {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REFRESH)
     private User seller;
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Category category;
@@ -31,13 +32,15 @@ public class Item implements Comparable {
         this.seller = seller;
         this.category = category;
         this.description = description;
+        seller.addItem(this);
     }
 
     public Long getId() {
         return id;
     }
 
-    public User getSeller() {
+    public User getSeller()
+    {
         return seller;
     }
 
