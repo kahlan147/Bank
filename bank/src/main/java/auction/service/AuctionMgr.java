@@ -45,7 +45,17 @@ public class AuctionMgr  {
      */
     public Bid newBid(Item item, User buyer, Money amount)
     {
+        Bid bid;
+        if(item != null)
+        {
+            bid = item.newBid(buyer, amount);
 
-        return item.newBid(buyer,amount);
+            if (bid != null) itemDAO.newBid(bid);
+        }
+        else
+        {
+            bid = null;
+        }
+        return bid;
     }
 }

@@ -93,5 +93,10 @@ public class AuctionMgrTest {
         // hoger bod
         Bid new3 = auctionMgr.newBid(item1, buyer2, new Money(11, "eur"));
         assertEquals(emailb2, new3.getBuyer().getEmail());
+
+
+        //FIXME: is this it? opdracht 4.2
+        Bid new4 = auctionMgr.newBid(null, buyer2, new Money(12, "eur"));
+        assertNull(new4);
     }
 }

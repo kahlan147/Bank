@@ -17,10 +17,7 @@ public class User
     @OneToMany(cascade = CascadeType.PERSIST)
     private Set<Item> offeredItems = new HashSet<>();
 
-    public User()
-    {
-
-    }
+    public User(){}
 
     public User(String email)
     {

@@ -5,8 +5,7 @@ import nl.fontys.util.Money;
 
 import javax.persistence.*;
 
-@Entity(name="Bid")
-
+@Entity (name="Bid")
 public class Bid {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -15,12 +14,16 @@ public class Bid {
     @ManyToOne
     private User buyer;
     private Money amount;
+    @OneToOne
+    @JoinColumn(nullable = false)
+    private Item madeFor;
 
     public Bid(){}
 
-    public Bid(User buyer, Money amount) {
+    public Bid(User buyer, Money amount, Item madeFor) {
         this.buyer = buyer;
         this.amount = amount;
+        this.madeFor = madeFor;
     }
 
     public FontysTime getTime() {

@@ -23,7 +23,7 @@ public class Item implements Comparable {
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Category category;
     private String description;
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.MERGE}, mappedBy = "madeFor")
     private Bid highest;
 
     public Item(){}
@@ -57,10 +57,11 @@ public class Item implements Comparable {
     }
 
     public Bid newBid(User buyer, Money amount) {
+        System.out.println(highest);
         if (highest != null && highest.getAmount().compareTo(amount) >= 0) {
             return null;
         }
-        highest = new Bid(buyer, amount);
+        highest = new Bid(buyer, amount, this);
         return highest;
     }
 

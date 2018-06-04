@@ -1,5 +1,6 @@
 package auction.dao;
 
+import auction.domain.Bid;
 import auction.domain.Item;
 import java.util.List;
 import java.util.Set;
@@ -50,4 +51,6 @@ public interface ItemDAO {
      * @param item - entity instance
      */
     void remove(Item item);
+
+    void newBid(Bid bid);
 }

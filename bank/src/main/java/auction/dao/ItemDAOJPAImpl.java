@@ -1,5 +1,6 @@
 package auction.dao;
 
+import auction.domain.Bid;
 import auction.domain.Item;
 import auction.domain.User;
 
@@ -107,6 +108,14 @@ public class ItemDAOJPAImpl implements ItemDAO
     {
         em.getTransaction().begin();
         em.remove(item);
+        em.getTransaction().commit();
+    }
+
+    @Override
+    public void newBid(Bid bid)
+    {
+        em.getTransaction().begin();
+        em.persist(bid);
         em.getTransaction().commit();
     }
 }
