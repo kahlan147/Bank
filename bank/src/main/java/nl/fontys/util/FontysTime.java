@@ -1,16 +1,13 @@
 package nl.fontys.util;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Time;
 import java.util.TimeZone;
 
-
+@Embeddable
 public class FontysTime implements Serializable {
-	//TODO: Embed in bid
+
 	private long seconds;
 
 	public FontysTime() {

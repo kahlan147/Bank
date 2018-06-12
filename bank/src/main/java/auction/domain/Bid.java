@@ -10,9 +10,11 @@ public class Bid {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
+    @Embedded
     private FontysTime time;
     @ManyToOne
     private User buyer;
+    @Embedded
     private Money amount;
     @OneToOne
     @JoinColumn(nullable = false)
