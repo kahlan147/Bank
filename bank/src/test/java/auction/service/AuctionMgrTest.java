@@ -11,11 +11,10 @@ import auction.domain.Bid;
 import auction.domain.Category;
 import auction.domain.Item;
 import auction.domain.User;
-import util.DatabaseCleaner;
+import nl.fontys.util.DatabaseCleaner;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AuctionMgrTest {

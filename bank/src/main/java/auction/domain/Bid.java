@@ -4,9 +4,13 @@ import nl.fontys.util.FontysTime;
 import nl.fontys.util.Money;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @Entity(name="Bid")
-
 public class Bid {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)

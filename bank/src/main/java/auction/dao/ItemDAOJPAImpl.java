@@ -3,10 +3,7 @@ package auction.dao;
 import auction.domain.Item;
 import auction.domain.User;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
@@ -16,16 +13,17 @@ import java.util.List;
 public class ItemDAOJPAImpl implements ItemDAO
 {
 
-    private EntityManager em;
+    private EntityManagerFactory emf;
 
     public ItemDAOJPAImpl()
     {
-        this.em = Persistence.createEntityManagerFactory("se42").createEntityManager();
+        this.emf = Persistence.createEntityManagerFactory("se42");
     }
 
     @Override
     public int count()
     {
+        EntityManager em = emf.createEntityManager();
         Query q = em.createNamedQuery("Item.count", Item.class);
         return ((Long) q.getSingleResult()).intValue();
     }
@@ -33,6 +31,7 @@ public class ItemDAOJPAImpl implements ItemDAO
     @Override
     public void create(Item item)
     {
+        EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(item);
         em.getTransaction().commit();
@@ -41,6 +40,7 @@ public class ItemDAOJPAImpl implements ItemDAO
     @Override
     public void edit(Item item)
     {
+        EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.merge(item);
         em.getTransaction().commit();
@@ -49,6 +49,7 @@ public class ItemDAOJPAImpl implements ItemDAO
     @Override
     public Item find(Long id)
     {
+        EntityManager em = emf.createEntityManager();
         Query q = em.createNamedQuery("Item.findById", Item.class);
         q.setParameter("id", id);
         try
@@ -64,6 +65,7 @@ public class ItemDAOJPAImpl implements ItemDAO
     @Override
     public List<Item> findAll()
     {
+        EntityManager em = emf.createEntityManager();
         CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
         cq.select(cq.from(Item.class));
         return em.createQuery(cq).getResultList(); //If database is empty, this returns an empty list by itself.
@@ -74,6 +76,7 @@ public class ItemDAOJPAImpl implements ItemDAO
     @Override
     public List<Item> findByDescription(String description)
     {
+        EntityManager em = emf.createEntityManager();
         Query q = em.createNamedQuery("Item.findByDescription", Item.class);
         q.setParameter("description", description);
         try
@@ -89,8 +92,9 @@ public class ItemDAOJPAImpl implements ItemDAO
     @Override
     public void remove(Item item)
     {
+        EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        em.remove(item);
+        em.remove(em.merge(item));
         em.getTransaction().commit();
     }
 }

@@ -1,9 +1,14 @@
 package auction.domain;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @Entity (name="Users")
 @NamedQueries({
         @NamedQuery(name = "User.getAll", query = "select u from Users as u"),

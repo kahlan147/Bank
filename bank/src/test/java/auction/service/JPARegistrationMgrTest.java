@@ -3,7 +3,7 @@ package auction.service;
 import auction.domain.User;
 import org.junit.Before;
 import org.junit.Test;
-import util.DatabaseCleaner;
+import nl.fontys.util.DatabaseCleaner;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;

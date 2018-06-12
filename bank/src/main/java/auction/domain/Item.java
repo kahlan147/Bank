@@ -3,8 +3,13 @@ package auction.domain;
 import nl.fontys.util.Money;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Objects;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 @Entity(name="Item")
 @NamedQueries({
         @NamedQuery(name = "Item.getAll", query = "select i from Item as i"),
